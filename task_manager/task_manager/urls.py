@@ -16,12 +16,13 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from tasks.views import home  # Importamos la vista
+from tasks.views import home, task_list  # Importamos la vista
 
 urlpatterns = [
-    path('', home),  # Agregamos la vista de inicio
+    path('', task_list, name="home"),  # Agregamos la vista de inicio
     path('admin/', admin.site.urls),
     path('api/', include('tasks.urls')),
+    path('tasks/', include('tasks.urls')),
 ]
 
 
