@@ -1,22 +1,55 @@
-{% extends "base.html" %}
-
-{% block title %}Lista de Tareas{% endblock %}
-
-{% block content %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Tareasss</title>
+</head>
+<body>
+    <header>
+        <h1>Registros</h1>
+    </header>
     <h2>Mis Tareas</h2>
-    <ul> 
-        {% for task in tasks %}
-        <strong>
-            <li>{{ task.title }} <br>
-                {{ task.description }} - 
-        </strong>
-                {% if task.completed %}
-                    <strong>Completado</strong>
-                {% else %}
-                    <strong>Pendiente</strong>
-                {% endif %}
-             </li>
-             <br>
-        {% endfor %}
-    </ul>
-{% endblock %}
+    <table border="1">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Título</th>
+                <th>Descripción</th>
+                <th>Estado</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for task in tasks %}
+            <tr>
+                <td>{{ task.id }}</td>
+                <td>{{ task.title }}</td>
+                <td>{{ task.description }}</td>
+                <td>
+                    {% if task.completed %}
+                        <strong>Completado</strong>
+                    {% else %}
+                        <strong>Pendiente</strong>
+                    {% endif %}
+                </td>
+                <td>
+                    <!-- 👇 Enlace para eliminar -->
+                    |
+                    <a href="{% url 'edit_task' task.id %}">Editar</a>
+                    |
+                    <a href="{% url 'delete_task' task.id %}" style="color:red;" onclick="return confirm('¿Eliminar esta tarea?');">Borrar</a>
+                    |
+                    
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <p>Total de tareas: {{ tasks|length }}</p>
+
+    <a href="{% url 'create_task' %}">Crear nueva tarea</a>
+</body>
+</html>
+
